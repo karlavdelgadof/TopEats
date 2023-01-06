@@ -1,5 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Vehicle, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'validations' do
+    it { should define_enum_for(:type).
+    with_values( "🚗" => 0, "🚲" => 1, "🛵" => 2)}
+  end
+
+  describe 'associations' do
+    it { should belong_to(:courier)}
+  end
 end
