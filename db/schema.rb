@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_06_024613) do
 
   create_table "vehicles", force: :cascade do |t|
     t.bigint "courier_id", null: false
-    t.integer "type"
+    t.integer "vehicle_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["courier_id"], name: "index_vehicles_on_courier_id"
