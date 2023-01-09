@@ -1,6 +1,5 @@
 class User < ApplicationRecord
   belongs_to :address
-  has_many :vehicles, foreign_key: 'courier_id', dependent: :destroy
 
   validates_presence_of :full_name, :type
   validates_length_of :full_name, maximum: 250, on: :create

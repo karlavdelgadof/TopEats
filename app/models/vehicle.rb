@@ -1,6 +1,6 @@
 class Vehicle < ApplicationRecord
   belongs_to :courier, class_name: 'User'
-  enum type: {
+  enum vehicle_type: {
     "🚗" => 0,
     "🚲" => 1,
     "🛵" => 2
