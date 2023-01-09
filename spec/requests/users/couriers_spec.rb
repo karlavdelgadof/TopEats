@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Couriers', type: :request do
   describe 'GET /index' do
+    let!(:address) { Address.create(description: "Delaware, USA") }
+    let!(:courier) { Courier.create(full_name: "Jane Doe", email: "jane.doe@example.com", phone_number: "(543)-907-2356", address_id: address.id) }
+
     before(:each) do
-      @address = Address.create(description: "Delaware, USA")
-      Courier.create(full_name: "Jane Doe", email: "jane.doe@example.com", phone_number: "(543)-907-2356", address_id: @address.id)
       get couriers_path
     end
 
@@ -14,6 +15,15 @@ RSpec.describe 'Couriers', type: :request do
 
     it 'returns all couriers' do
       expect(JSON.parse(response.body).size).to eq(1)
+      expect(JSON.parse(response.body)[0]).to match({
+        "address_id" => address.id,
+        "created_at" => String,
+        "email" => courier.email,
+        "full_name" => courier.full_name,
+        "id" => courier.id,
+        "phone_number" => courier.phone_number,
+        "updated_at" => String}
+      )
     end
   end
 
