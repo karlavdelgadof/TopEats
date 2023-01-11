@@ -16,13 +16,14 @@ RSpec.describe 'Couriers', type: :request do
     it 'returns all couriers' do
       expect(JSON.parse(response.body).size).to eq(1)
       expect(JSON.parse(response.body)[0]).to match({
-        "address_id" => address.id,
-        "created_at" => String,
+        "address" => { "id" => address.id, "description" => address.description},
         "email" => courier.email,
         "full_name" => courier.full_name,
         "id" => courier.id,
         "phone_number" => courier.phone_number,
-        "updated_at" => String}
+        "orders" => [],
+        "vehicles" => []
+        }
       )
     end
   end
@@ -41,7 +42,7 @@ RSpec.describe 'Couriers', type: :request do
     it "contains expected courier attributes" do
       json_response = JSON.parse(response.body)
       expect(json_response.keys).to match_array(["id", "full_name", "email", "phone_number",
-       "address_id", "created_at", "updated_at"])
+       "address", "orders", "vehicles"])
     end
 
   end
@@ -56,7 +57,7 @@ RSpec.describe 'Couriers', type: :request do
           full_name: courier.full_name,
           email:  courier.email,
           phone_number: courier.phone_number,
-          address_id: courier.address_id
+          address_id: address.id
         }}
       end
 

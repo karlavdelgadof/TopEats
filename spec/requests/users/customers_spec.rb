@@ -20,6 +20,7 @@ RSpec.describe 'Customers', type: :request do
         "full_name" => customer.full_name,
         "id" => customer.id,
         "phone_number" => customer.phone_number,
+        "orders" => []
     })
     end
   end
@@ -39,28 +40,26 @@ RSpec.describe 'Customers', type: :request do
     it "contains expected customer attributes" do
       json_response = JSON.parse(response.body)
       expect(json_response.keys).to match_array(["id", "full_name", "email", "phone_number",
-       "address"])
+       "address", "orders"])
     end
 
   end
 
   describe 'POST /create' do
     context 'with valid parameters' do
-      let!(:address) { Address.create(description: "Winterfell, GOT") }
-      let!(:customer) { Customer.create(full_name: "Arya Stark", email: "nymeria.stark@example.com", phone_number: "(543)-907-2356", address: address) }
+      let!(:address) { Address.create!(description: "Winterfell, GOT") }
+      let!(:customer) { Customer.create!(full_name: "Arya Stark", email: "nymeria.stark@example.com", phone_number: "(543)-907-2356", address_id: address.id) }
 
       before do
         post customers_path, params: { customer: {
           full_name: customer.full_name,
           email:  customer.email,
           phone_number: customer.phone_number,
-          address: {"id" => customer.address.id, "description" => customer.address.description}
-          }
-        }
+          address_id: address.id
+        }}
       end
 
       it 'returns the #full_name' do
-        p response.body
         expect(JSON.parse(response.body)["full_name"]).to eq(customer.full_name)
       end
 
@@ -90,26 +89,26 @@ RSpec.describe 'Customers', type: :request do
   end
 
   describe 'PATCH /update' do
-    let!(:address) { Address.create(description: "Delaware, USA") }
-    let!(:customer) { Courier.create(full_name: "John Doe", email: "john.doe@example.com", phone_number: "(543)-907-2356", address_id: address.id) }
+    let!(:address) { Address.create!(description: "Delaware, USA") }
+    let!(:customer) { Customer.create!(full_name: "John Doe", email: "john.doe@example.com", phone_number: "(543)-907-2356", address_id: address.id) }
 
     before(:each) do
       customer.update(email: "john.123@mail.com")
-      patch courier_path(customer.id), params: { customer: customer.as_json}
+      patch customer_path(customer.id), params: { customer: customer.as_json}
     end
 
     it 'updates a customer' do
       expect(response.status).to eq(302)
-      expect(Courier.find(customer.id)).to eq(customer)
+      expect(Customer.find(customer.id)).to eq(customer)
     end
   end
 
   describe 'DELETE /destroy' do
     let(:address) { Address.create(description: "Delaware, USA") }
-    let(:customer) { Courier.create(full_name: "John Doe", email: "john.doe@example.com", phone_number: "(543)-907-2356", address_id: address.id) }
+    let(:customer) { Customer.create(full_name: "John Doe", email: "john.doe@example.com", phone_number: "(543)-907-2356", address_id: address.id) }
 
     before do
-      delete courier_path(customer.id)
+      delete customer_path(customer.id)
     end
 
     it 'returns status code 204' do
