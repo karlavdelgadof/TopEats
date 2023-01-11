@@ -38,6 +38,6 @@ class CouriersController < ApplicationController
   end
 
   def courier_params
-    params.require(:courier).permit(:full_name, :email, :phone_number, :address)
+    params.require(:courier).permit(:full_name, :email, :phone_number, :address_id)
   end
 end
