@@ -1,37 +1,37 @@
 require 'rails_helper'
 
-RSpec.describe "Vehicles", type: :request do
+RSpec.describe "Orders", type: :request do
   describe "GET /index" do
     it "returns http success" do
-      get "/vehicles/index"
+      get "/orders/index"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /show" do
     it "returns http success" do
-      get "/vehicles/show"
+      get "/orders/show"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /create" do
     it "returns http success" do
-      get "/vehicles/create"
+      get "/orders/create"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /update" do
     it "returns http success" do
-      get "/vehicles/update"
+      get "/orders/update"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /destroy" do
     it "returns http success" do
-      get "/vehicles/destroy"
+      get "/orders/destroy"
       expect(response).to have_http_status(:success)
     end
   end
