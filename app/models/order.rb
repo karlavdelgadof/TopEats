@@ -12,4 +12,6 @@ class Order < ApplicationRecord
   }
 
   validates_numericality_of :total_price, greater_than_or_equal_to: 0
+
+  scope :five_most_recent_delivered_orders, -> (courier) { where("courier_id = ?", courier.id).where(status: :delivered).last(5) }
 end
