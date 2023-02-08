@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post "/graphql", to: "graphql#execute"
   resources :couriers, :customers do
     resources :orders do
       resources :menu_items
